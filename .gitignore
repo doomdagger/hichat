@@ -1,0 +1,8 @@
+# webstorm meta #
+.idea/
+
+# node modules folder #
+node_modules/
+
+# other #
+.DS_STORE
