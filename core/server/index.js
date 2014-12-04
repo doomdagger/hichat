@@ -3,7 +3,8 @@ var express     = require('express'),
     when        = require('when'),
     semver      = require('semver'),
 
-    config      = require('./config'),
+    config      = require('../shared/config'),
+    middleware  = require('./middleware'),
     packageInfo = require('../../package.json'),
 
     httpServer;
@@ -84,6 +85,8 @@ function init(server) {
     if (!server) {
         server = express();
     }
+
+    middleware(server);
 
     // return the correct mime type for woff filess
     express['static'].mime.define({'application/font-woff': ['woff']});

@@ -16,9 +16,18 @@ config = {
             port: '1222'
         },
 
+        im: {
+            // Host to be passed to node's `net.Server#listen()`
+            host: '127.0.0.1',
+            // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
+            port: '27100'
+        },
+
         paths: {
             contentPath: path.join(__dirname, '/content/')
-        }
+        },
+
+        logging: 'dev'
     },
 
     production: {

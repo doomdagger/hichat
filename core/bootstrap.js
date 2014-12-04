@@ -6,8 +6,8 @@ var fs = require('fs'),
     // dependency level import
     when = require('when'),
     // local module import
-    errors = require('./server/errors'),
-    config = require('./server/config'),
+    errors = require('./shared/errors'),
+    config = require('./shared/config'),
     appRoot = path.resolve(__dirname, '../'),
     configExample = path.join(appRoot, 'config.example.js'),
     configFile;

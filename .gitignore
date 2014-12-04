@@ -6,6 +6,11 @@ node_modules/
 
 # other #
 .DS_STORE
+bower_components/
 
 # local config file #
 config.js
+
+# built assets #
+!built/README.md
+built/*

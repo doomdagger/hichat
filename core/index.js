@@ -14,8 +14,11 @@ function startHichat(options) {
 
     bootstrap(options.config).then(function () {
         try {
-            var hichat = require('./server');
-            return hichat(options.app)
+            var hichat = require('./server'),
+                im     = require('./im');
+
+            return im()
+                .then(hichat)
                 .then(deferred.resolve)
                 .catch(function (e) {
                     deferred.reject(e);

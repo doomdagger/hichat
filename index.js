@@ -4,7 +4,7 @@
 
 var hichat = require('./core'),
     path    = require('path'),
-    errors = require('./core/server/errors');
+    errors = require('./core/shared/errors');
 
 
 hichat({
