@@ -12,5 +12,9 @@ bower_components/
 config.js
 
 # built assets #
-!built/README.md
-built/*
+!core/built/README.md
+core/built/**
+
+# assets #
+content/resources/css/*
+
