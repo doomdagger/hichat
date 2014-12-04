@@ -4,6 +4,7 @@
   "description": "Instant Messaging component for iCollege",
   "main": "index.js",
   "scripts": {
+    "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,12 +14,18 @@
   "keywords": [
     "IM"
   ],
+  "engines": {
+    "node": ">= 0.10.x"
+  },
   "author": "Li He",
   "license": "ISC",
   "dependencies": {
     "when": "3.6.3",
     "nodestalker": "0.1.0",
     "socket.io": "1.2.1",
-    "express": "4.10.4"
+    "express": "4.10.4",
+    "colors": "v1.0.3",
+    "lodash": "*",
+    "semver": "4.1.0"
   }
 }

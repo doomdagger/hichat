@@ -6,3 +6,6 @@ node_modules/
 
 # other #
 .DS_STORE
+
+# local config file #
+config.js
