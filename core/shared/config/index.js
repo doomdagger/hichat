@@ -73,8 +73,7 @@ function updateConfig(config) {
             'imagesPath':       path.resolve(contentPath, 'images'),
             'imagesRelPath':    'content/images',
 
-            'builtPath':        path.join(corePath, 'built/'),
-            'builtScriptPath':  path.join(corePath, 'built/scripts/')
+            'builtPath':        path.join(contentPath, 'resources/js/')
         }
     });
 

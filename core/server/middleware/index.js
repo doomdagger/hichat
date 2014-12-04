@@ -33,11 +33,6 @@ setupMiddleware = function (server) {
     expressServer.use(subdir, favicon(contentPath + '/resources/icons/favicon.png'));
 
     // ### Static assets
-    // built scripts, from vendor or myself
-    expressServer.use(subdir + '/scripts', express['static'](path.join(corePath, '/built/scripts'), {maxAge: utils.ONE_YEAR_MS}));
-    // public scripts both used by vendor and myself
-    expressServer.use(subdir + '/public', express['static'](path.join(corePath, '/built/public'), {maxAge: utils.ONE_YEAR_MS}));
-    // static assets
     expressServer.use(subdir + '/', express['static'](path.join(contentPath), {maxAge: utils.ONE_YEAR_MS}));
 };
 

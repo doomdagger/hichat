@@ -17,4 +17,6 @@ core/built/**
 
 # assets #
 content/resources/css/*
+content/resources/js/*
+
 
