@@ -48,16 +48,12 @@ var app = http.createServer(function (request, response) {
     });
 }).listen(parseInt(port, 10));
 
-// webrtc record audio start here~
-var exec = require('child_process').exec;
 
 var io = require('socket.io').listen(app);
 
 io.sockets.on('connection', function (socket) {
     socket.on('message', function (data) {
         var fileName = uuid.v4();
-        
-        socket.emit('ffmpeg-output', 0);
 
         writeToDisk(data.audio.dataURL, fileName + '.wav');
 

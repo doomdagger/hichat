@@ -1,111 +1,70 @@
-<!--
-// Muaz Khan      - www.MuazKhan.com
-// MIT License    - www.WebRTC-Experiment.com/licence
-// Experiments    - github.com/muaz-khan/WebRTC-Experiment
-// RecordRTC      - github.com/muaz-khan/WebRTC-Experiment/tree/master/RecordRTC
-
-// RecordRTC over 
-// Socket.io      - github.com/muaz-khan/WebRTC-Experiment/tree/master/RecordRTC/RecordRTC-over-Socketio
--->
-
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <title>RecordRTC over Socket.io</title>
-    <script>
-    if (location.href.indexOf('file:') == 0) {
-        document.write('<h1 style="color:red;">Please load this HTML file on HTTP or HTTPS.</h1>');
-    }
-    </script>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link rel="author" type="text/html" href="https://plus.google.com/+MuazKhan">
-    <meta name="author" content="Muaz Khan">
+    <meta charset="utf-8"/>
+    <title>record voice</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="author" content="Li He">
 
-    <script src="https://www.webrtc-experiment.com/RecordRTC.js">
-    </script>
-    <script src="/socket.io/socket.io.js">
-    </script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
 
-    <style>
-    html {
-        background-color: #f7f7f7;
-    }
-    body {
-        background-color: white;
-        border: 1px solid rgb(15, 158, 238);
-        margin: 1% 35%;
-        text-align: center;
-    }
-    hr {
-        border: 0;
-        border-top: 1px solid rgb(15, 158, 238);
-    }
-    a {
-        color: #2844FA;
-        text-decoration: none;
-    }
-    a:hover,
-    a:focus {
-        color: #1B29A4;
-    }
-    a:active {
-        color: #000;
-    }
-    </style>
+    <script src="https://www.webrtc-experiment.com/RecordRTC.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <h1><a href="https://github.com/muaz-khan/WebRTC-Experiment/tree/master/RecordRTC">RecordRTC</a> <a href="https://github.com/muaz-khan/WebRTC-Experiment/tree/master/RecordRTC/RecordRTC-over-Socketio">over Socket.io</a>
-    </h1>
-    <p>
-        <video id="camera-preview" style="border: 1px solid rgb(15, 158, 238); width: 94%;"></video>
-    </p>
 
-    <div style="display:none;">
-        <label id="percentage">Ffmpeg Progress 0%</label>
-        <progress id="progress-bar" value="0" max="100"></progress>
-        <br />
+<div class="container">
+    <div class="page-header">
+        <h1>record audio</h1>
     </div>
 
     <div>
-        <button id="start-recording" disabled>Start Recording</button>
-        <button id="stop-recording" disabled>Stop Recording</button>
+        <button type="button" class="btn btn-default" id="start-recording" disabled>Start</button>
+        <button type="button" class="btn btn-default" id="stop-recording" disabled>Send</button>
+    </div>
+    <br>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+            <span class="sr-only">60% Complete</span>
+        </div>
     </div>
 
-    <script>
+    <div id="area">
+
+    </div>
+
+</div>
+
+
+
+<script>
     // you can set it equal to "false" to record only audio
-    var recordVideoSeparately = false;
-
-    if (!!navigator.webkitGetUserMedia && !recordVideoSeparately) {
-        var cameraPreview = document.getElementById('camera-preview');
-        cameraPreview.parentNode.innerHTML = '<audio id="camera-preview" controls style="border: 1px solid rgb(15, 158, 238); width: 94%;"></audio> ';
-    }
-
     var socketio = io();
 
     var mediaStream = null;
 
-    socketio.on('connect', function() {
+    socketio.on('connect', function () {
         startRecording.disabled = false;
     });
 
+    // buttons and audio
     var startRecording = document.getElementById('start-recording');
     var stopRecording = document.getElementById('stop-recording');
-    var cameraPreview = document.getElementById('camera-preview');
-
-    var progressBar = document.querySelector('#progress-bar');
-    var percentage = document.querySelector('#percentage');
 
     var recordAudio;
 
-    startRecording.onclick = function() {
+    startRecording.onclick = function () {
         startRecording.disabled = true;
+
         navigator.getUserMedia({
             audio: true,
             video: false
-        }, function(stream) {
+        }, function (stream) {
             mediaStream = stream;
 
             recordAudio = RecordRTC(stream);
@@ -113,21 +72,20 @@
             recordAudio.startRecording();
 
             stopRecording.disabled = false;
-        }, function(error) {
+        }, function (error) {
             alert(JSON.stringify(error));
         });
     };
 
-    stopRecording.onclick = function() {
+    stopRecording.onclick = function () {
         startRecording.disabled = false;
         stopRecording.disabled = true;
 
-
         // if firefox or if you want to record only audio
         // stop audio recorder
-        !recordVideoSeparately && recordAudio.stopRecording(function() {
+        recordAudio.stopRecording(function () {
             // get audio data-URL
-            recordAudio.getDataURL(function(audioDataURL) {
+            recordAudio.getDataURL(function (audioDataURL) {
                 var files = {
                     audio: {
                         type: recordAudio.getBlob().type || 'audio/wav',
@@ -139,38 +97,21 @@
                 if (mediaStream) mediaStream.stop();
             });
 
-            cameraPreview.src = '';
-            cameraPreview.poster = 'ajax-loader.gif';
         });
     };
 
-    socketio.on('merged', function(fileName) {
+    socketio.on('merged', function (fileName) {
         var href = (location.href.split('/').pop().length ? location.href.replace(location.href.split('/').pop(), '') : location.href);
 
         href = href + '/uploads/' + fileName;
 
         console.log('got file ' + href);
 
-        cameraPreview.src = href
-        cameraPreview.play();
-        cameraPreview.muted = false;
-        cameraPreview.controls = true;
+        var area = document.getElementById('area');
+        $(area).append('<p><audio id="camera-preview" controls loop src="'+href+'"></audio><p>');
     });
 
-    socketio.on('ffmpeg-output', function(result) {
-        if (parseInt(result) >= 100) {
-            progressBar.parentNode.style.display = 'none';
-            return;
-        }
-        progressBar.parentNode.style.display = 'block';
-        progressBar.value = result;
-        percentage.innerHTML = 'Ffmpeg Progress ' + result + "%";
-    });
-
-    socketio.on('ffmpeg-error', function(error) {
-        alert(error);
-    });
-    </script>
+</script>
 
 </body>
 
