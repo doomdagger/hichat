@@ -24,8 +24,8 @@
             <div class="item">
                 <h2 class="ui header" style="text-align: center">
                     <div class="content">
-                        光明的一线
-                        <div class="sub header">今天很开心，看能钓到大鱼吗？</div>
+                        ---
+                        <div class="sub header">---</div>
                     </div>
                 </h2>
             </div>
@@ -39,11 +39,6 @@
                     <div class="ui teal label">1</div>
                     <i class="world icon"></i>
                     公共聊天室
-                </a>
-                <a class="item">
-                    <div class="ui label">51</div>
-                    <i class="chat icon"></i>
-                    susui的小屋
                 </a>
             </div>
         </div>
@@ -218,23 +213,19 @@
     </div>
     <div class="content">
         <div class="ui error form segment">
-            <div class="ui error message">
-                <div class="header">昵称已被占用</div>
-                <p>请更换一个昵称以使用本系统</p>
-            </div>
             <div class="field">
                 <label>昵称</label>
-                <input placeholder="填写您的昵称" type="text">
+                <input id="nickname-field" placeholder="填写您的昵称" type="text">
             </div>
             <div class="field">
                 <label>个人签名</label>
-                <input placeholder="填写您的个人签名" type="text">
+                <input id="signature-field" placeholder="填写您的个人签名" type="text">
             </div>
             <div class="field">
                 <label>头像链接</label>
-                <input type="text" placeholder="填写您的头像图片的链接URL">
+                <input id="avatar-field" type="text" placeholder="填写您的头像图片的链接URL">
             </div>
-            <div class="ui submit button">Submit</div>
+            <div id="initial-submit-button" class="ui submit disabled purple button">提交数据</div>
         </div>
     </div>
 
@@ -246,17 +237,16 @@
 <script src="resources/js/vendor/semantic.js"></script>
 <script src="resources/js/vendor/underscore.js"></script>
 <script src="resources/js/vendor/backbone.js"></script>
-
+<script src="http://127.0.0.1:27100/socket.io/socket.io.js"></script>
 <script>
     var modal = $('.ui.basic.modal');
-
     modal.modal({
         "closable": true,
         "transition": "shake"
     });
-
     modal.modal('show');
 </script>
+<script src="resources/js/initial.js"></script>
 
 </body>
 </html>
