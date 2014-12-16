@@ -5,8 +5,10 @@
 var _             = require('lodash'),
     errors        = require('../../shared/errors'),
     config        = require('../../shared/config'),
+    utils         = require('../../shared/utils'),
     userControllers,
-    users = {};
+    users = {},
+    rooms = {};
 
 userControllers = {
     // Route: checkNickname
@@ -37,8 +39,117 @@ userControllers = {
             }
 
             users[data.nickname] = data;
+            socket.username = data.nickname;
+            socket.avatar = data.avatar;
+            socket.rooms = [];
+            socket.emit('initialize user', {success: true, users: users, username: data.nickname, avatar: data.avatar});
+            socket.broadcast.emit('user join', {user: data});
+        }
+    },
 
-            socket.emit('initialize user', {success: true});
+    // Route: signOff
+    // Event: disconnect
+    signOff: function (socket) {
+        return function () {
+            for (var i in socket.rooms) {
+                var index = rooms[socket.rooms[i]]['users'].indexOf(socket.username);
+                utils.delElByIndex(rooms[socket.rooms[i]]['users'], index);
+                socket.leave(socket.rooms[i]);
+
+                if (rooms[socket.rooms[i]]['users'].length==0) {
+                    delete rooms[socket.rooms[i]];
+                } else {
+                    socket.to(socket.rooms[i]).emit("someone leave room", {room: socket.rooms[i], user: socket.username});
+                }
+            }
+            if (users) {
+                delete users[socket.username];
+
+                socket.broadcast.emit('user leave', {nickname: socket.username});
+            }
+        }
+    },
+
+    // Route: createRoom
+    // Event: create room
+    // Data: {name: string, password: string(optional)}
+    createRoom: function (socket) {
+        return function (data) {
+            if (rooms[data.name]) {
+                socket.emit('create room', {success: false, message: "以此名字命名的房间已存在"});
+            } else {
+                if (data.password) {
+                    rooms[data.name] = {password: data.password, users: [socket.username]};
+                } else {
+                    rooms[data.name] = {users: [socket.username]};
+                }
+                socket.join(data.name);
+                socket.rooms.push(data.name);
+                socket.emit('create room', {success: true, room: data.name});
+            }
+        }
+    },
+
+    // Route: joinRoom
+    // Event: join room
+    // Data: {name: string, password: string(if required)}
+    joinRoom: function (socket) {
+        return function (data) {
+            if (rooms[data.name]) {
+                if (rooms[data.name]['password'] == data.password) {
+
+                    rooms[data.name]['users'].push(socket.username);
+                    socket.to(data.name).emit("someone join room", {room: data.name, user: users[socket.username]});
+                    socket.join(data.name);
+
+                    var roomUsers = {};
+                    for (var item in rooms[data.name]['users']) {
+                        roomUsers[rooms[data.name]['users'][item]] = users[rooms[data.name]['users'][item]];
+                    }
+                    socket.rooms.push(data.name);
+                    socket.emit('join room', {success: true, room: data.name, users: roomUsers});
+                } else {
+                    socket.emit('join room', {success: false, message: "该房间需要密码或所提供的密码不正确"});
+                }
+            } else {
+                socket.emit('join room', {success: false, message: "该房间不存在"});
+            }
+        }
+    },
+
+    // Route: leaveRoom
+    // Event: leave room
+    // Data: {name: string}
+    leaveRoom: function (socket) {
+        return function (data) {
+            var index = rooms[data.name]['users'].indexOf(socket.username);
+            utils.delElByIndex(rooms[data.name]['users'], index);
+            socket.leave(data.name);
+
+            if (rooms[data.name]['users'].length==0) {
+                delete rooms[data.name];
+            } else {
+                socket.to(data.name).emit("someone leave room", {room: data.name, user: socket.username});
+            }
+
+            index = socket.rooms.indexOf(data.name);
+            utils.delElByIndex(socket.rooms, index);
+            socket.emit("leave room", {success: true, room: data.name});
+
+        }
+    },
+
+    // Route: sendTextMessage
+    // Event: send text message
+    // Data: {room: string, nickname: string, avatar: string, content: string}
+    sendTextMessage: function (socket) {
+        return function (data) {
+            if(data.room == 'default-room') {
+                socket.broadcast.emit('receive text message', data);
+            }else {
+                socket.to(data.room).emit('receive text message', data);
+            }
+            socket.emit('send text message', data);
         }
     }
 };

@@ -19,24 +19,23 @@
         <!-- menu here -->
         <div class="ui vertical fluid large menu" style="height: 100%">
             <div class="item">
-                <img class="ui small circular image" src="resources/images/avatar.jpg">
+                <img id="my-avatar" class="ui small circular image" src="resources/images/default.png">
             </div>
             <div class="item">
                 <h2 class="ui header" style="text-align: center">
-                    <div class="content">
-                        ---
-                        <div class="sub header">---</div>
+                    <div id="my-nickname" class="content">
+                        <div id="my-signature" class="sub header">---</div>
                     </div>
                 </h2>
             </div>
             <div class="item">
-                <div class="ui primary button">创建房间</div>
-                <div class="ui secondary button">加入房间</div>
-                <div class="ui red button">全部退房</div>
+                <div id="new-room-button" class="ui primary button">创建房间</div>
+                <div id="join-room-button" class="ui secondary button">加入房间</div>
+                <div id="leave-all-room-button" class="ui red button">全部退房</div>
             </div>
             <div id="room-list">
-                <a class="active blue item">
-                    <div class="ui teal label">1</div>
+                <a class="active blue item" data-bind="default-room">
+                    <div class="ui teal label">0</div>
                     <i class="world icon"></i>
                     公共聊天室
                 </a>
@@ -44,134 +43,24 @@
         </div>
     </div>
     <!-- message pad here -->
-    <div class="twelve wide middle column" style="height: 100%;">
-        <div class="ui vertically grid" style="height: 100%; margin-top: 1px">
+    <div id="room-area" class="twelve wide middle column" style="height: 100%;">
+        <!-- room independent panel -->
+        <div id="default-room" class="ui vertically grid" style="height: 100%; margin-top: 1px">
             <div class="row" style="height: 25%; width: 100%">
                 <div class="column" style="height: 100%; width: 100%;">
                     <div style="width: 100%;overflow: auto">
-                        <div class="ui cards" style="width: 100%;height: 190px; overflow: auto">
-                            <div class="card" style="width: 115px">
-                                <div class="ui slide masked reveal image">
-                                    <img style="width: 115px;height: 115px;" src="resources/images/avatar.jpg" class="visible content">
-                                    <video controls class="hidden content"></video>
-                                </div>
-                                <div class="content">
-                                    <div class="meta">洋洋洋</div>
-                                </div>
-                            </div>
-                            <div class="card" style="width: 115px">
-                                <div class="ui slide masked reveal image">
-                                    <img style="width: 115px;height: 115px;" src="resources/images/avatar.jpg" class="visible content">
-                                    <video controls class="hidden content"></video>
-                                </div>
-                                <div class="content">
-                                    <div class="meta">洋洋洋</div>
-                                </div>
-                            </div>
+                        <div class="ui cards user-list" style="width: 100%;height: 190px; overflow: auto">
+                            <!-- room users all in here -->
+
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row" style="height: 75%; margin-top: -6px">
                 <div class="column" style="height: 100%;">
-                    <div class="ui segment" style="height: 84%; overflow: auto">
-                        <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img class="ui avatar image" src="resources/images/avatar.jpg">
-                                </a>
-                                <div class="content">
-                                    <span class="author">Li He</span>
-                                    <div class="ui yellow message">Yellow</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img class="ui avatar image" src="resources/images/avatar.jpg">
-                                </a>
-                                <div class="content">
-                                    <span class="author">Li He</span>
-                                    <br><br>
-                                    <audio controls></audio>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img class="ui avatar image" src="resources/images/avatar.jpg">
-                                </a>
-                                <div class="content">
-                                    <span class="author">Li He</span>
-                                    <div class="ui icon message">
-                                        <i class="file icon"></i>
-                                        <div class="content">
-                                            <div class="header">
-                                                毕设论文模板.doc
-                                            </div>
-                                            <p>点击 <a><b>这里</b></a> 下载该文档</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img class="ui avatar image" src="resources/images/avatar.jpg">
-                                </a>
-                                <div class="content">
-                                    <span class="author">Li He</span>
-                                    <div class="ui blue message">Yellow</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img class="ui avatar image" src="resources/images/avatar.jpg">
-                                </a>
-                                <div class="content">
-                                    <span class="author">Li He</span>
-                                    <div class="ui blue message">Yellow</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img class="ui avatar image" src="resources/images/avatar.jpg">
-                                </a>
-                                <div class="content">
-                                    <span class="author">Li He</span>
-                                    <div class="ui blue message">Yellow</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img class="ui avatar image" src="resources/images/avatar.jpg">
-                                </a>
-                                <div class="content">
-                                    <span class="author">Li He</span>
-                                    <div class="ui blue message">Yellow</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img class="ui avatar image" src="resources/images/avatar.jpg">
-                                </a>
-                                <div class="content">
-                                    <span class="author">Li He</span>
-                                    <div class="ui blue message">Yellow</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="ui segment message-panel" style="height: 84%; overflow: auto">
+                        <!-- message panel -->
+
                     </div>
                     <div class="five fluid ui icon buttons" style="height: 8%;">
                         <div class="ui icon button">
@@ -190,19 +79,19 @@
                             <i class="record icon"></i>
                             视频聊天
                         </div>
-                        <div class="ui icon button">
+                        <div data-bind="default-room" class="ui icon button leave-button">
                             <i class="sign out icon"></i>
                             退出房间
                         </div>
                     </div>
                     <div class="ui fluid action huge input" style="height: 8%">
-                        <input type="text" placeholder="文字消息">
-                        <div class="ui primary button">发送</div>
+                        <input class="message-field" data-bind="default-room" type="text" placeholder="文字消息">
+
+                        <div class="ui primary button send-button" data-bind="default-room">发送</div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -230,8 +119,106 @@
     </div>
 
 </div>
+<div id="new-room" class="ui small modal">
+    <i class="close icon"></i>
+
+    <div class="header">
+        创建房间
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="field">
+                <label>房间名称</label>
+                <input class="room-name" type="text" placeholder="请输入想要创建的房间的名称">
+            </div>
+            <div class="field">
+                <label>房间密码</label>
+                <input class="room-password" type="password" placeholder="请输入想要创建的房间的密码（可选）">
+            </div>
+        </div>
+        <div class="ui black button">
+            不建了
+        </div>
+        <div class="ui green button">
+            就这样吧
+        </div>
+    </div>
+</div>
+
+<div id="join-room" class="ui small modal">
+    <i class="close icon"></i>
+
+    <div class="header">
+        加入房间
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="field">
+                <label>房间名称</label>
+                <input class="room-name" type="text" placeholder="请输入想要加入的房间的名称">
+            </div>
+            <div class="field">
+                <label>房间密码</label>
+                <input class="room-password" type="password" placeholder="请输入想要加入的房间的密码（如有需要）">
+            </div>
+        </div>
+        <div class="ui black button">
+            不加了
+        </div>
+        <div class="ui green button">
+            就这样加进去
+        </div>
+    </div>
+</div>
 
 
+<div id="backup-empty-room" class="ui vertically grid" style="height: 100%; margin-top: 1px; display: none">
+    <div class="row" style="height: 25%; width: 100%">
+        <div class="column" style="height: 100%; width: 100%;">
+            <div style="width: 100%;overflow: auto">
+                <div class="ui cards user-list" style="width: 100%;height: 190px; overflow: auto">
+                    <!-- room users all in here -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height: 75%; margin-top: -6px">
+        <div class="column" style="height: 100%;">
+            <div class="ui segment message-panel" style="height: 84%; overflow: auto">
+                <!-- message panel -->
+
+            </div>
+            <div class="five fluid ui icon buttons" style="height: 8%;">
+                <div class="ui icon button">
+                    <i class="play icon"></i>
+                    录音
+                </div>
+                <div class="ui icon button">
+                    <i class="cloud icon"></i>
+                    文件共享
+                </div>
+                <div class="ui icon button">
+                    <i class="unmute icon"></i>
+                    语音聊天
+                </div>
+                <div class="ui icon button">
+                    <i class="record icon"></i>
+                    视频聊天
+                </div>
+                <div class="ui icon button leave-button">
+                    <i class="sign out icon"></i>
+                    退出房间
+                </div>
+            </div>
+            <div class="ui fluid action huge input" style="height: 8%">
+                <input class="message-field" type="text" placeholder="文字消息">
+
+                <div class="ui primary button send-button">发送</div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="resources/js/vendor/jquery.js"></script>
 <script src="resources/js/vendor/semantic.js"></script>
@@ -239,12 +226,37 @@
 <script src="resources/js/vendor/backbone.js"></script>
 <script src="http://127.0.0.1:27100/socket.io/socket.io.js"></script>
 <script>
-    var modal = $('.ui.basic.modal');
-    modal.modal({
+    var initialModal = $('#initial');
+    initialModal.modal({
         "closable": true,
         "transition": "shake"
     });
-    modal.modal('show');
+    initialModal.modal('show');
+
+    var newRoomModal = $('#new-room');
+    newRoomModal.modal({
+        "transition": "browse",
+        "onHide": function () {
+            $("#new-room .initial-message").remove();
+        }
+    });
+    var joinRoomModal = $('#join-room');
+    joinRoomModal.modal({
+        "transition": "browse",
+        "onHide": function () {
+            $("#join-room .initial-message").remove();
+        }
+    });
+
+    var newRoomButton = $('#new-room-button');
+    newRoomButton.on('click', function () {
+        newRoomModal.modal('show');
+    });
+
+    var joinRoomButton = $('#join-room-button');
+    joinRoomButton.on('click', function () {
+        joinRoomModal.modal('show');
+    });
 </script>
 <script src="resources/js/initial.js"></script>
 
