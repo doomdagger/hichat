@@ -23,6 +23,8 @@ userRoutes = function (socket) {
 
     ss(socket).on('share file', user.shareFile(socket));
 
+    socket.on('send audio message', user.sendAudioMessage(socket));
+
 };
 
 module.exports = userRoutes;

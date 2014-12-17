@@ -182,8 +182,38 @@ userControllers = {
 
             stream.pipe(fs.createWriteStream(filePath));
         }
-    }
+    },
 
+    // Route: sendAudioMessage
+    // Event: send audio message
+    // Data: {room: string, nickname: string, avatar: string, content: object}
+    // object: {type: string, dataURL: string}
+    'sendAudioMessage': function (socket) {
+        return function(data) {
+            var fileName = utils.uid(10)+".wav",
+                filePath = path.join(config.paths.contentPath, 'upload/audio', data.room, fileName),
+                dirPath = path.dirname(filePath),
+                dataURL = data.content.dataURL,
+                fileBuffer;
+
+
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath);
+            }
+
+            dataURL = dataURL.split(',').pop();
+            fileBuffer = new Buffer(dataURL, 'base64');
+            fs.writeFileSync(filePath, fileBuffer);
+
+            data.content = {link: 'upload/audio/'+data.room+'/'+fileName};
+            socket.emit('send audio message', data);
+            if (data.room == 'default-room') {
+                socket.broadcast.emit('receive audio message', data);
+            } else {
+                socket.to(data.room).emit('receive audio message', data);
+            }
+        }
+    }
 };
 
 module.exports = userControllers;
