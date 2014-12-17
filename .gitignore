@@ -17,7 +17,7 @@ core/built/**
 
 # assets #
 content/resources/css/*
-content/resources/js/*
+content/resources/js/vendor/*
 content/resources/fonts/*
 
 npm-debug.log
