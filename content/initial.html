@@ -30,8 +30,7 @@
             </div>
             <div class="item">
                 <div id="new-room-button" class="ui primary button">创建房间</div>
-                <div id="join-room-button" class="ui secondary button">加入房间</div>
-                <div id="leave-all-room-button" class="ui red button">全部退房</div>
+                <div id="join-room-button" class="ui green button">加入房间</div>
             </div>
             <div id="room-list">
                 <a class="active blue item" data-bind="default-room">
@@ -65,7 +64,7 @@
                     <div class="ui top attached green progress" data-percent="0" style="display: none;">
                         <div class="bar"></div>
                     </div>
-                    <div class="five fluid ui icon buttons" style="height: 8%;">
+                    <div class="four fluid ui icon buttons" style="height: 8%;">
                         <div data-bind="default-room" class="ui icon button record-button">
                             <i class="play icon"></i>
                             录音
@@ -81,10 +80,6 @@
                         <div data-bind="default-room" class="ui icon button video-button">
                             <i class="record icon"></i>
                             视频聊天
-                        </div>
-                        <div data-bind="default-room" class="ui icon button leave-button">
-                            <i class="sign out icon"></i>
-                            退出房间
                         </div>
                     </div>
                     <div class="ui fluid action huge input" style="height: 8%">
@@ -232,7 +227,7 @@
 <script src="resources/js/vendor/semantic.js"></script>
 <script src="resources/js/vendor/underscore.js"></script>
 <script src="resources/js/vendor/backbone.js"></script>
-<script src="http://127.0.0.1:27100/socket.io/socket.io.js"></script>
+<script src="resources/js/vendor/socket.io.js"></script>
 <script src="resources/js/vendor/socket.io-stream.min.js"></script>
 <script src="resources/js/vendor/RecordRTC.js"></script>
 <script>
