@@ -62,20 +62,23 @@
                         <!-- message panel -->
 
                     </div>
+                    <div class="ui top attached green progress" data-percent="0" style="display: none;">
+                        <div class="bar"></div>
+                    </div>
                     <div class="five fluid ui icon buttons" style="height: 8%;">
-                        <div class="ui icon button">
+                        <div data-bind="default-room" class="ui icon button record-button">
                             <i class="play icon"></i>
                             录音
                         </div>
-                        <div class="ui icon button">
+                        <div data-bind="default-room" class="ui icon button share-button">
                             <i class="cloud icon"></i>
                             文件共享
                         </div>
-                        <div class="ui icon button">
+                        <div data-bind="default-room" class="ui icon button audio-button">
                             <i class="unmute icon"></i>
                             语音聊天
                         </div>
-                        <div class="ui icon button">
+                        <div data-bind="default-room" class="ui icon button video-button">
                             <i class="record icon"></i>
                             视频聊天
                         </div>
@@ -189,20 +192,23 @@
                 <!-- message panel -->
 
             </div>
+            <div class="ui top attached green progress" data-percent="0" style="display: none;">
+                <div class="bar"></div>
+            </div>
             <div class="five fluid ui icon buttons" style="height: 8%;">
-                <div class="ui icon button">
+                <div class="ui icon button record-button">
                     <i class="play icon"></i>
                     录音
                 </div>
-                <div class="ui icon button">
+                <div class="ui icon button share-button">
                     <i class="cloud icon"></i>
                     文件共享
                 </div>
-                <div class="ui icon button">
+                <div class="ui icon button audio-button">
                     <i class="unmute icon"></i>
                     语音聊天
                 </div>
-                <div class="ui icon button">
+                <div class="ui icon button video-button">
                     <i class="record icon"></i>
                     视频聊天
                 </div>
@@ -220,11 +226,14 @@
     </div>
 </div>
 
+<input type="file" id="file" style="display: none;">
+
 <script src="resources/js/vendor/jquery.js"></script>
 <script src="resources/js/vendor/semantic.js"></script>
 <script src="resources/js/vendor/underscore.js"></script>
 <script src="resources/js/vendor/backbone.js"></script>
 <script src="http://127.0.0.1:27100/socket.io/socket.io.js"></script>
+<script src="resources/js/vendor/socket.io-stream.min.js"></script>
 <script>
     var initialModal = $('#initial');
     initialModal.modal({
@@ -237,14 +246,14 @@
     newRoomModal.modal({
         "transition": "browse",
         "onHide": function () {
-            $("#new-room .initial-message").remove();
+            $("#new-room").find(".initial-message").remove();
         }
     });
     var joinRoomModal = $('#join-room');
     joinRoomModal.modal({
         "transition": "browse",
         "onHide": function () {
-            $("#join-room .initial-message").remove();
+            $("#join-room").find(".initial-message").remove();
         }
     });
 

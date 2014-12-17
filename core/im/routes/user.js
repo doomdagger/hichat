@@ -1,7 +1,8 @@
 /**
  * Created by lihe9_000 on 2014/12/16.
  */
-var user       = require('../controllers/user'),
+var ss         = require('socket.io-stream'),
+    user       = require('../controllers/user'),
     userRoutes;
 
 userRoutes = function (socket) {
@@ -19,6 +20,8 @@ userRoutes = function (socket) {
     socket.on('leave room', user.leaveRoom(socket));
 
     socket.on('send text message', user.sendTextMessage(socket));
+
+    ss(socket).on('share file', user.shareFile(socket));
 
 };
 

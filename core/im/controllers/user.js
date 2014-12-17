@@ -2,7 +2,10 @@
  * Created by lihe9_000 on 2014/12/16.
  */
 
-var _             = require('lodash'),
+var path          = require('path'),
+    fs            = require('fs'),
+    _             = require('lodash'),
+    bytes         = require('bytes'),
     errors        = require('../../shared/errors'),
     config        = require('../../shared/config'),
     utils         = require('../../shared/utils'),
@@ -151,7 +154,36 @@ userControllers = {
             }
             socket.emit('send text message', data);
         }
+    },
+
+    // Route: shareFile
+    // Event: share file
+    // Data: {room: string, nickname: string, avatar: string, content: object}
+    shareFile: function (socket) {
+        return function (stream, data) {
+            var filePath = path.join(config.paths.contentPath, 'upload/shared', data.room, data.content.name),
+                dirPath = path.dirname(filePath);
+
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath);
+            }
+
+
+            stream.on('end', function () {
+                data.content = {name: data.content.name, type: data.content.type, size: bytes(data.content.size), link: "upload/shared/"+data.room+"/"+data.content.name};
+
+                socket.emit('share file', data);
+                if (data.room == 'default-room') {
+                    socket.broadcast.emit('receive file message', data);
+                } else {
+                    socket.to(data.room).emit('receive file message', data);
+                }
+            });
+
+            stream.pipe(fs.createWriteStream(filePath));
+        }
     }
+
 };
 
 module.exports = userControllers;

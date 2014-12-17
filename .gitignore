@@ -21,3 +21,9 @@ content/resources/js/*
 content/resources/fonts/*
 
 npm-debug.log
+
+# uploads #
+content/upload/audio/*
+content/upload/shared/*
+!content/upload/audio/*.md
+!content/upload/shared/*.md
