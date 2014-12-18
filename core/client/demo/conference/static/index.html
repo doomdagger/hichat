@@ -1,27 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
+    <!-- Standard Meta -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>Instant Messaging</title>
+    <link rel="stylesheet" href="css/semantic.css">
+
+    <script src="js/socket.io-0.9.6.js"> </script>
+    <script src="js/RTCPeerConnection-v1.5.js"> </script>
+    <script src="js/conference.js"> </script>
+    <script src="js/jquery.js"></script>
+    <script src="js/semantic.js"></script>
 </head>
 <body>
-<script src="js/socket.io-0.9.6.js"> </script>
-<script src="js/RTCPeerConnection-v1.5.js"> </script>
-<script src="js/conference.js"> </script>
+<br>
+<div class="ui page grid">
+    <div class="sixteen wide column">
+        <div class="ui yellow message">
+            <i class="close icon"></i>
+            <div class="header">
+                此聊天频道专属于您的聊天室
+            </div>
+            <p>您可以创建新的视频群聊组或加入下方列出的聊天群组</p>
+        </div>
+    </div>
+    <div class="sixteen wide column">
+        <div class="ui action fluid input">
+            <input id="new-room-name" type="text" placeholder="输入新的聊天群组名称并点击创建" value="">
+            <div class="ui teal right labeled icon button" id="setup-new-room"><i class="plus icon"></i>创建群组</div>
+        </div>
+    </div>
+    <div class="sixteen wide column">
+        <table style="width: 100%;" id="rooms-list">
 
-<button id="setup-new-room">Setup New Conference</button>
-<table style="width: 100%;" id="rooms-list"></table>
+        </table>
+    </div>
+</div>
+
+
 <div id="videos-container"></div>
 
 <script>
     var config = {
         openSocket: function (config) {
-            // http://socketio-over-nodejs.hp.af.cm/
-            // http://socketio-over-nodejs.nodejitsu.com:80/
-            // http://webrtc-signaling.nodejitsu.com:80/
 
             var SIGNALING_SERVER = 'http://localhost:8888/',
-                    defaultChannel = location.href.replace(/\/|:|#|%|\.|\[|\]/g, '');
+                    defaultChannel = location.pathname.replace(/\/|:|#|%|\.|\[|\]/g, '');
 
             var channel = config.channel || defaultChannel;
             var sender = Math.round(Math.random() * 999999999) + 999999999;
@@ -40,10 +67,6 @@
             });
 
             socket.send = function (message) {
-                console.log({
-                    sender: sender,
-                    data: message
-                });
                 socket.emit('message', {
                     sender: sender,
                     data: message
@@ -64,12 +87,12 @@
             if (video) video.parentNode.removeChild(video);
         },
         onRoomFound: function (room) {
-            var alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster + '"]');
+            var alreadyExist = document.querySelector('div[data-broadcaster="' + room.broadcaster + '"]');
             if (alreadyExist) return;
 
             var tr = document.createElement('tr');
-            tr.innerHTML = '<td><strong>' + room.roomName + '</strong> shared a conferencing room with you!</td>' +
-            '<td><button class="join">Join</button></td>';
+            tr.innerHTML = '<td><a class="ui big orange label">'+room.roomName+'</a></td>' +
+            '<td><div class="ui teal left labeled icon button join" ><i class="sign in icon"></i>加入群组</div></td>';
             roomsList.insertBefore(tr, roomsList.firstChild);
 
             var joinRoomButton = tr.querySelector('.join');
@@ -95,12 +118,18 @@
     var roomsList = document.getElementById('rooms-list');
 
     document.getElementById('setup-new-room').onclick = function () {
-        this.disabled = true;
-        captureUserMedia(function () {
-            conferenceUI.createRoom({
-                roomName: 'Anonymous'
+        var roomName = $('#new-room-name').val();
+        if (roomName) {
+            $(this).addClass('disabled');
+            captureUserMedia(function () {
+                conferenceUI.createRoom({
+                    roomName: roomName
+                });
             });
-        });
+        } else {
+            alert('请为新聊天群组输入一个名称');
+        }
+
     };
 
     function captureUserMedia(callback) {
@@ -108,7 +137,6 @@
         video.setAttribute('autoplay', true);
         video.setAttribute('controls', true);
         videosContainer.insertBefore(video, videosContainer.firstChild);
-
         getUserMedia({
             video: video,
             onsuccess: function (stream) {
@@ -118,6 +146,7 @@
             }
         });
     }
+
 </script>
 </body>
 </html>

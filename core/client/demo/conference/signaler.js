@@ -1,19 +1,20 @@
-var node_static = require('node-static'),
-    file = new node_static.Server('./static'),
-    app = require('http').createServer(function (request, response) {
-        request.addListener('end', function () {
-            file.serve(request, response);
-        }).resume();
-    }),
-    io = require('socket.io').listen(app, {
+var express = require('express'),
+    app = express(),
+    path = require('path'),
+    server = require('http').Server(app),
+    io = require('socket.io').listen(server, {
         log: false,
         origins: '*:*'
     }),
     channels = {};
 
+server.listen(8888, "0.0.0.0");
 
-app.listen(8888);
+app.use('/', express['static'](path.join(__dirname, 'static')));
 
+app.get('/:channel', function (req, res) {
+    res.sendFile(path.join(__dirname, 'static/index.html'));
+});
 
 io.sockets.on('connection', function (socket) {
     var initiatorChannel = '';

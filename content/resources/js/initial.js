@@ -311,6 +311,12 @@ $('#file').change(function (e) {
     blobStream.pipe(stream);
 });
 
+$(document).on("click", ".video-button", function () {
+    var roomName = $(this).attr('data-bind');
+
+    window.open('http://localhost:8888/'+roomName);
+});
+
 
 // ************************ html snipeet ********************
 
